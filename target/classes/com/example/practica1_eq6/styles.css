@@ -3,13 +3,8 @@
 }
 
 #vaso {
-    -fx-background-color: #FF9999, white ;
-    -fx-background-insets: 0, 0 3 3 3 ;
+    -fx-background-color: #000000, white ;
+    -fx-background-insets: 0, 0 3 7 3 ;
 }
 
-#contenidoVaso {
-    -fx-background-color: #AAAAFF;
-}
-#contenidoVaso2 {
-    -fx-background-color: #FFAAFF;
-}
+
