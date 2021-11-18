@@ -16,7 +16,7 @@ public class Main extends Application {
     private BorderPane borderPane;
     private VBox vBox;
     private Scene escena;
-    private Button btnGenerarColor, btnSalir;
+    private Button btnGenerarColor_Vaciar, btnSalir;
     private HBox contenedorVasos, contenedorVasos10ml;
     private VBox vaso1, vaso2, vaso3;
     private Label lblLiquido1, lblLiquido2, lblLiquido3;
@@ -43,7 +43,7 @@ public class Main extends Application {
         vaso2 = new VBox(); // Contenedor que representa al vaso 2
         vaso3 = new VBox(); // Contenedor que representa al vaso 3
         separadorVasos = new Label(""); // label que sirve para generar un espacio entre los vasos de 10ml y el de 100
-        btnGenerarColor = new Button("");
+        btnGenerarColor_Vaciar = new Button("");
         btnSalir = new Button("");
 
         // Label que muestra el contenido de cada vaso
@@ -60,7 +60,7 @@ public class Main extends Application {
         vaso2.getChildren().add(lblLiquido2);
 
         //Se le agrega un tamaño preferido a cada boton
-        btnGenerarColor.setPrefSize(90,40);
+        btnGenerarColor_Vaciar.setPrefSize(90,40);
         btnSalir.setPrefSize(90,40);
 
         // Se agregan paddings y Spacing a los contenedores para obtener el formato adecuado
@@ -96,16 +96,20 @@ public class Main extends Application {
 
         // Se posicionan los botones en su contenedor de acuerdo al diseño
         borderPane.setPadding(new Insets(0, 20, 0, 20));
-        borderPane.setLeft(btnGenerarColor);
+        borderPane.setLeft(btnGenerarColor_Vaciar);
         borderPane.setRight(btnSalir);
 
         // Se agrega los eventos correspondientes a cada boton
-        btnGenerarColor.setOnAction(event -> llenadoColores());
+        btnGenerarColor_Vaciar.setOnAction(event -> definirBoton());
         btnSalir.setOnAction(event -> {System.exit(0);});
 
         // Se agregan las imagenes a los botones mediante los metodos correspondientes
-        agregarImagenIniciar();
+        agregarImagenGenerarColor();
         agregarImagenSalir();
+
+        // Se le agrega el id "generarColor" al boton btnGenerarColor_Vaciar Para saber que imagen contiene
+        // y que metodo se realizara al ser presionado
+        btnGenerarColor_Vaciar.setId("generarColor");
 
         escena = new Scene(vBox, 400, 270);
 
@@ -113,13 +117,32 @@ public class Main extends Application {
         escena.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
     }
 
-    // Metodo que se ejecuta cuando se preciona el boton btnGenerarColores
-    private void llenadoColores() {
-        btnGenerarColor.setDisable(true);
+    // Se maneja la imagen del boton y que accion realizara
+    private void definirBoton() {
+        // Se obtiene el estado del boton, es decir que funcion debe realizar
+        if (btnGenerarColor_Vaciar.getId().equals("generarColor")) {
+            // Se le cambia la imagen a la de vaciar
+            agregarImagenVaciar();
+            // Se cambia el Id del boton para saber que ahora tomara la funcion del boton vaciar
+            btnGenerarColor_Vaciar.setId("vaciar");
+
+
+            // metodoGenerarColores();
+
+        }else {
+            // Se le cambia la imagen a la de generarColor
+            agregarImagenGenerarColor();
+            // Se cambia el Id del boton para saber que ahora tomara la funcion del boton generarColor
+            btnGenerarColor_Vaciar.setId("generarColor");
+
+            // metodoVaciar();
+
+        }
     }
 
-    // Agrega la imagen especificada al botn btnGenerarColor
-    private void agregarImagenIniciar() {
+
+    // Agrega la imagen especificada al boton btnGenerarColor_Vaciar
+    private void agregarImagenGenerarColor() {
         BackgroundImage myBI= null;
         try {
             myBI = new BackgroundImage(new Image(Main.class.getResource("generarColor.png").toURI().toString(),320,320,false,true),
@@ -130,8 +153,24 @@ public class Main extends Application {
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
-        btnGenerarColor.setBackground(new Background(myBI));
+        btnGenerarColor_Vaciar.setBackground(new Background(myBI));
     }
+
+    // Agrega la imagen especificada al boton btnGenerarColor_Vaciar
+    private void agregarImagenVaciar() {
+        BackgroundImage myBI= null;
+        try {
+            myBI = new BackgroundImage(new Image(Main.class.getResource("vaciar.png").toURI().toString(),320,320,false,true),
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundRepeat.NO_REPEAT,
+                    BackgroundPosition.CENTER,
+                    new BackgroundSize(1.0, 1.0, true, true, false, false));
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        btnGenerarColor_Vaciar.setBackground(new Background(myBI));
+    }
+
     // Agrega la imagen especificada al botn btnSalir
     private void agregarImagenSalir() {
         BackgroundImage myBI= null;
