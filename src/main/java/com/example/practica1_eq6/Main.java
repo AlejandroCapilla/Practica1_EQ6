@@ -10,6 +10,7 @@ import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 import java.net.URISyntaxException;
+import java.util.Random;
 
 public class Main extends Application {
 
