@@ -102,7 +102,7 @@ public class Main extends Application {
         borderPane.setRight(btnSalir);
 
         // Se agrega los eventos correspondientes a cada boton
-        btnGenerarColor_Vaciar.setOnAction(event -> definirBoton());
+        btnGenerarColor_Vaciar.setOnAction(event -> ColocaColor());
         btnSalir.setOnAction(event -> {System.exit(0);});
 
         // Se agregan las imagenes a los botones mediante los metodos correspondientes
@@ -118,29 +118,29 @@ public class Main extends Application {
         //Se le agrega un Stylesheet a la escena
         escena.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
     }
-    
-     private String GeneraColor() {
+
+    private String GeneraColor() {
         Random rnd = new Random();
         String[] Colores = {"rojo", "amarillo", "azul"};//crea el string con colores
         int Indice;//variable indicadora
         String Color;//variable dondd se almacena el color
-        Indice= (int) (rnd.nextDouble() * 3); //general el numero aleatorio entre 1 y 3
+        Indice= (int) (rnd.nextDouble() * 3);
         Color= Colores[Indice];
         return Color;
     }
     private void ColocaColor(){
-        String Color = GeneraColor();//recive el color
-        ColoresGenerados++;//aumenta el numero de colores generados
+        String Color = GeneraColor();
+        ColoresGenerados++;
         switch (ColoresGenerados){
             case 1:
-                lblLiquido1.setText(Color);//asigna el color al primer vaso
+                lblLiquido1.setText(Color);
                 break;
             case 2:
-                lblLiquido2.setText(Color);//asigna el boton al segundo vaso
+                lblLiquido2.setText(Color);
                 definirBoton();
                 break;
             case 3:
-                //insertar al metodo que vacia los colores
+                //llamar al metodo que vacia los colores
                 btnGenerarColor_Vaciar.setDisable(true);
                 btnSalir.setDisable(false);
                 break;
