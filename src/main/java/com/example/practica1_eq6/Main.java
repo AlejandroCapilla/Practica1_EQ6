@@ -21,6 +21,7 @@ public class Main extends Application {
     private VBox vaso1, vaso2, vaso3;
     private Label lblLiquido1, lblLiquido2, lblLiquido3;
     private Label separadorVasos;
+    private int ColoresGenerados;
 
     public static void main(String[] args) {
         launch(args);
@@ -115,6 +116,34 @@ public class Main extends Application {
 
         //Se le agrega un Stylesheet a la escena
         escena.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
+    }
+    
+     private String GeneraColor() {
+        Random rnd = new Random();
+        String[] Colores = {"rojo", "amarillo", "azul"};//crea el string con colores
+        int Indice;//variable indicadora
+        String Color;//variable dondd se almacena el color
+        Indice= (int) (rnd.nextDouble() * 3); //general el numero aleatorio entre 1 y 3
+        Color= Colores[Indice];
+        return Color;
+    }
+    private void ColocaColor(){
+        String Color = GeneraColor();//recive el color
+        ColoresGenerados++;//aumenta el numero de colores generados
+        switch (ColoresGenerados){
+            case 1:
+                lblLiquido1.setText(Color);//asigna el color al primer vaso
+                break;
+            case 2:
+                lblLiquido2.setText(Color);//asigna el boton al segundo vaso
+                definirBoton();
+                break;
+            case 3:
+                //insertar al metodo que vacia los colores
+                btnGenerarColor_Vaciar.setDisable(true);
+                btnSalir.setDisable(false);
+                break;
+        }
     }
 
     // Se maneja la imagen del boton y que accion realizara
