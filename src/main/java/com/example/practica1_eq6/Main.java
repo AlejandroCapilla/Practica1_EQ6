@@ -130,6 +130,7 @@ public class Main extends Application {
         escena.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
     }
 
+    //Metodo que compara el liquido de los 2 vasos de 10ml y los vacia en el de 100ml
     private void vaciarColores() {
         String color = "";
         if (lblLiquido1.getText() == lblLiquido2.getText()) {
@@ -168,8 +169,9 @@ public class Main extends Application {
         lblLiquido1.setText("");
         lblLiquido2.setText("");
 
+        // cuando el contador llega a 10 significa que el vaso de 100ml esta lleno
         if (contadorVaso100ml == 10) {
-            btnGenerarColor_Vaciar.setDisable(true);
+            btnGenerarColor_Vaciar.setDisable(true); // se desabilita el boton de generar/vaciar
         }
     }
 
@@ -183,6 +185,7 @@ public class Main extends Application {
         return Color;
     }
 
+    //Metodo que coloca el color generado en el vaso 1 y 2
     private void ColocaColor(){
         String Color = GeneraColor();
         ColoresGenerados++;
