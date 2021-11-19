@@ -20,9 +20,11 @@ public class Main extends Application {
     private Button btnGenerarColor_Vaciar, btnSalir;
     private HBox contenedorVasos, contenedorVasos10ml;
     private VBox vaso1, vaso2, vaso3;
-    private Label lblLiquido1, lblLiquido2, lblLiquido3;
+    private Label lblLiquido1, lblLiquido2;
+    private Label[] lblLiquidosVaso3;
     private Label separadorVasos;
     private int ColoresGenerados;
+    private byte contadorVaso100ml = 0;
 
     public static void main(String[] args) {
         launch(args);
@@ -47,11 +49,16 @@ public class Main extends Application {
         separadorVasos = new Label(""); // label que sirve para generar un espacio entre los vasos de 10ml y el de 100
         btnGenerarColor_Vaciar = new Button("");
         btnSalir = new Button("");
+        btnSalir.setDisable(true);
 
         // Label que muestra el contenido de cada vaso
         lblLiquido1 = new Label();
         lblLiquido2 = new Label();
-        lblLiquido3 = new Label();
+        lblLiquidosVaso3 = new Label[10];
+
+        for (int i = 0; i < 10; i++) {
+            lblLiquidosVaso3[i] = new Label();
+        }
 
         // Se define un ancho y alto preferido para los vasos de 10ml
         lblLiquido1.setPrefSize(80,40);
@@ -61,12 +68,16 @@ public class Main extends Application {
         vaso1.getChildren().add(lblLiquido1);
         vaso2.getChildren().add(lblLiquido2);
 
+        for (int i = 9; i >= 0; i--) {
+           vaso3.getChildren().add(lblLiquidosVaso3[i]);
+        }
+
         //Se le agrega un tamaño preferido a cada boton
         btnGenerarColor_Vaciar.setPrefSize(90,40);
         btnSalir.setPrefSize(90,40);
 
         // Se agregan paddings y Spacing a los contenedores para obtener el formato adecuado
-        contenedorVasos10ml.setPadding(new Insets(35, 0, 0, 0));
+        contenedorVasos10ml.setPadding(new Insets(95, 0, 0, 0));
         contenedorVasos10ml.setSpacing(30);
         contenedorVasos.setPrefSize(300,180);
         contenedorVasos.setId("panelPadre");
@@ -78,16 +89,16 @@ public class Main extends Application {
         // Se agregan paddings y Spacing a los contenedores para obtener el formato adecuado
         vaso1.setPrefSize(60,40);
         vaso1.setId("vaso");
-        vaso1.setPadding(new Insets(10));
+        vaso1.setPadding(new Insets(50,5,0,5));
         vaso1.setSpacing(15);
         vaso2.setPrefSize(60,40);
         vaso2.setId("vaso");
-        vaso2.setPadding(new Insets(10));
+        vaso2.setPadding(new Insets(50, 5, 0, 5));
         vaso2.setSpacing(15);
         vaso3.setPrefSize(80,60);
         vaso3.setId("vaso");
-        vaso3.setPadding(new Insets(10));
-        vaso3.setSpacing(15);
+        vaso3.setPadding(new Insets(5));
+        vaso3.setSpacing(0);
 
         separadorVasos.setPrefSize(40,1); // Se define el ancho del separador
 
@@ -113,10 +124,53 @@ public class Main extends Application {
         // y que metodo se realizara al ser presionado
         btnGenerarColor_Vaciar.setId("generarColor");
 
-        escena = new Scene(vBox, 400, 270);
+        escena = new Scene(vBox, 400, 340);
 
         //Se le agrega un Stylesheet a la escena
         escena.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
+    }
+
+    private void vaciarColores() {
+        String color = "";
+        if (lblLiquido1.getText() == lblLiquido2.getText()) {
+            color = lblLiquido1.getText();
+        } else {
+            switch (lblLiquido1.getText()) {
+                case "rojo":
+                    if (lblLiquido2.getText().equals("azul")) {
+                        color = "lila";
+                    } else {
+                        color = "naranja";
+                    }
+                    break;
+                case "azul":
+                    if (lblLiquido2.getText().equals("rojo")) {
+                        color = "lila";
+                    } else {
+                        color = "verde";
+                    }
+                    break;
+                case "amarillo":
+                    if (lblLiquido2.getText().equals("rojo")) {
+                        color = "naranja";
+                    } else {
+                        color = "verde";
+                    }
+                    break;
+            }
+        }
+
+        lblLiquidosVaso3[contadorVaso100ml].setText(color);
+        contadorVaso100ml++;
+        lblLiquidosVaso3[contadorVaso100ml].setText(color);
+        contadorVaso100ml++;
+
+        lblLiquido1.setText("");
+        lblLiquido2.setText("");
+
+        if (contadorVaso100ml == 10) {
+            btnGenerarColor_Vaciar.setDisable(true);
+        }
     }
 
     private String GeneraColor() {
@@ -128,6 +182,7 @@ public class Main extends Application {
         Color= Colores[Indice];
         return Color;
     }
+
     private void ColocaColor(){
         String Color = GeneraColor();
         ColoresGenerados++;
@@ -140,9 +195,10 @@ public class Main extends Application {
                 definirBoton();
                 break;
             case 3:
-                //llamar al metodo que vacia los colores
-                btnGenerarColor_Vaciar.setDisable(true);
+                vaciarColores();
                 btnSalir.setDisable(false);
+                definirBoton();
+                ColoresGenerados = 0;
                 break;
         }
     }
@@ -155,18 +211,11 @@ public class Main extends Application {
             agregarImagenVaciar();
             // Se cambia el Id del boton para saber que ahora tomara la funcion del boton vaciar
             btnGenerarColor_Vaciar.setId("vaciar");
-
-
-            // metodoGenerarColores();
-
         }else {
             // Se le cambia la imagen a la de generarColor
             agregarImagenGenerarColor();
             // Se cambia el Id del boton para saber que ahora tomara la funcion del boton generarColor
             btnGenerarColor_Vaciar.setId("generarColor");
-
-            // metodoVaciar();
-
         }
     }
 
