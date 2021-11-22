@@ -172,6 +172,7 @@ public class Main extends Application {
         // cuando el contador llega a 10 significa que el vaso de 100ml esta lleno
         if (contadorVaso100ml == 10) {
             btnGenerarColor_Vaciar.setDisable(true); // se desabilita el boton de generar/vaciar
+             btnSalir.setDisable(false);//se habilita el boton salir
         }
     }
 
@@ -199,7 +200,6 @@ public class Main extends Application {
                 break;
             case 3:
                 vaciarColores();
-                btnSalir.setDisable(false);
                 definirBoton();
                 ColoresGenerados = 0;
                 break;
